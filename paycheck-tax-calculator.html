@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paycheck Tax Calculator (Take-Home Estimate) - TaxKit</title>
+  <meta name="description" content="Estimate paycheck take-home pay and annual net pay using gross pay, deductions, and customizable federal/state/FICA withholding rates.">
+  <meta name="keywords" content="paycheck tax calculator, take home pay calculator, net paycheck estimator">
+  <link rel="canonical" href="https://devtoolbox.dedyn.io/taxkit/paycheck-tax-calculator.html">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Paycheck Tax Calculator (Take-Home Estimate) - TaxKit">
+  <meta property="og:description" content="Estimate per-paycheck and annual take-home pay with custom withholding rates.">
+  <meta property="og:url" content="https://devtoolbox.dedyn.io/taxkit/paycheck-tax-calculator.html">
+  <meta property="og:site_name" content="TaxKit">
+  <meta property="og:image" content="https://devtoolbox.dedyn.io/og/default.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Paycheck Tax Calculator - TaxKit">
+  <meta name="twitter:description" content="Quickly estimate net paycheck after taxes and deductions.">
+  <meta name="twitter:image" content="https://devtoolbox.dedyn.io/og/default.png">
+  <link rel="stylesheet" href="/taxkit/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "TaxKit Paycheck Tax Calculator",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "url": "https://devtoolbox.dedyn.io/taxkit/paycheck-tax-calculator.html"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "TaxKit",
+            "item": "https://devtoolbox.dedyn.io/taxkit/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Paycheck Tax Calculator",
+            "item": "https://devtoolbox.dedyn.io/taxkit/paycheck-tax-calculator.html"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="site-wrap">
+    <header class="topbar">
+      <a class="brand" href="/taxkit/">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>TaxKit</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/taxkit/">Home</a>
+        <a href="/taxkit/quarterly-tax-calculator.html">Quarterly Tax</a>
+        <a href="/kits/">All Kits</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="panel hero">
+        <h1>Paycheck Tax Calculator <span class="badge">Take-home estimate</span></h1>
+        <p>Estimate net pay per paycheck and annually using your own withholding assumptions and deductions.</p>
+      </section>
+
+      <section class="panel card">
+        <div class="grid form-grid">
+          <div>
+            <label for="grossPay">Gross pay per paycheck ($)</label>
+            <input id="grossPay" type="number" min="0" step="10" value="3500">
+          </div>
+          <div>
+            <label for="payPeriods">Pay periods per year</label>
+            <select id="payPeriods">
+              <option value="12">12 (monthly)</option>
+              <option value="24">24 (semi-monthly)</option>
+              <option value="26" selected>26 (bi-weekly)</option>
+              <option value="52">52 (weekly)</option>
+            </select>
+          </div>
+          <div>
+            <label for="preTax">Pre-tax deductions per paycheck ($)</label>
+            <input id="preTax" type="number" min="0" step="1" value="250">
+          </div>
+          <div>
+            <label for="postTax">Post-tax deductions per paycheck ($)</label>
+            <input id="postTax" type="number" min="0" step="1" value="20">
+          </div>
+          <div>
+            <label for="federalRate">Federal withholding (%)</label>
+            <input id="federalRate" type="number" min="0" step="0.1" value="12">
+          </div>
+          <div>
+            <label for="stateRate">State/local withholding (%)</label>
+            <input id="stateRate" type="number" min="0" step="0.1" value="4.5">
+          </div>
+          <div>
+            <label for="ficaRate">FICA withholding (%)</label>
+            <input id="ficaRate" type="number" min="0" step="0.01" value="7.65">
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" onclick="runCalc()">Estimate Take-Home Pay</button>
+        </div>
+
+        <div id="result" class="result" role="status" aria-live="polite">
+          Enter values and run calculation.
+        </div>
+      </section>
+
+      <section class="panel card" style="margin-top:14px;">
+        <h3>Interpretation tips</h3>
+        <ul>
+          <li>Use your latest pay stub to tune withholding percentages.</li>
+          <li>If your income varies, test low and high gross-pay scenarios.</li>
+          <li>Re-run whenever your deductions, location, or filing setup changes.</li>
+        </ul>
+        <p class="small">Related: <a href="/taxkit/quarterly-tax-calculator.html">Quarterly Tax Calculator</a>, <a href="/budgetkit/">BudgetKit</a>, and <a href="/careerkit/">CareerKit</a>.</p>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function money(value) {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(value);
+    }
+
+    function runCalc() {
+      const grossPay = Number(document.getElementById("grossPay").value);
+      const payPeriods = Number(document.getElementById("payPeriods").value);
+      const preTax = Number(document.getElementById("preTax").value);
+      const postTax = Number(document.getElementById("postTax").value);
+      const federalRate = Number(document.getElementById("federalRate").value);
+      const stateRate = Number(document.getElementById("stateRate").value);
+      const ficaRate = Number(document.getElementById("ficaRate").value);
+
+      const result = document.getElementById("result");
+
+      if (
+        grossPay < 0 ||
+        payPeriods <= 0 ||
+        preTax < 0 ||
+        postTax < 0 ||
+        federalRate < 0 ||
+        stateRate < 0 ||
+        ficaRate < 0
+      ) {
+        result.className = "result warn";
+        result.textContent = "Values cannot be negative, and pay periods must be greater than zero.";
+        return;
+      }
+
+      const taxablePay = Math.max(0, grossPay - preTax);
+      const federalTax = taxablePay * (federalRate / 100);
+      const stateTax = taxablePay * (stateRate / 100);
+      const ficaTax = taxablePay * (ficaRate / 100);
+      const totalTax = federalTax + stateTax + ficaTax;
+      const netPay = Math.max(0, taxablePay - totalTax - postTax);
+
+      const annualGross = grossPay * payPeriods;
+      const annualPreTax = preTax * payPeriods;
+      const annualPostTax = postTax * payPeriods;
+      const annualFederalTax = federalTax * payPeriods;
+      const annualStateTax = stateTax * payPeriods;
+      const annualFicaTax = ficaTax * payPeriods;
+      const annualTotalTax = totalTax * payPeriods;
+      const annualNet = netPay * payPeriods;
+
+      const effectiveTaxRate = annualGross > 0 ? (annualTotalTax / annualGross) * 100 : 0;
+
+      result.className = "result ok";
+      result.innerHTML =
+        "<strong>Estimated net pay per paycheck: " + money(netPay) + "</strong>" +
+        "<ul>" +
+        "<li>Taxable pay per paycheck: " + money(taxablePay) + "</li>" +
+        "<li>Federal tax per paycheck: " + money(federalTax) + "</li>" +
+        "<li>State/local tax per paycheck: " + money(stateTax) + "</li>" +
+        "<li>FICA per paycheck: " + money(ficaTax) + "</li>" +
+        "<li>Total tax per paycheck: " + money(totalTax) + "</li>" +
+        "<li>Annual gross pay: " + money(annualGross) + "</li>" +
+        "<li>Annual pre-tax deductions: " + money(annualPreTax) + "</li>" +
+        "<li>Annual post-tax deductions: " + money(annualPostTax) + "</li>" +
+        "<li>Annual federal tax: " + money(annualFederalTax) + "</li>" +
+        "<li>Annual state/local tax: " + money(annualStateTax) + "</li>" +
+        "<li>Annual FICA: " + money(annualFicaTax) + "</li>" +
+        "<li>Annual total tax: " + money(annualTotalTax) + "</li>" +
+        "<li>Annual net pay: " + money(annualNet) + "</li>" +
+        "<li>Effective annual tax rate (vs gross): " + effectiveTaxRate.toFixed(2) + "%</li>" +
+        "</ul>";
+    }
+
+    runCalc();
+  </script>
+</body>
+</html>

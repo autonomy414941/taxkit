@@ -1,0 +1,261 @@
+:root {
+  --bg-1: #f6f9f7;
+  --bg-2: #edf4ef;
+  --surface: #ffffff;
+  --surface-alt: #f7fbf8;
+  --text: #1f2937;
+  --muted: #4b5563;
+  --primary: #0f766e;
+  --primary-2: #15803d;
+  --border: #d6e0d8;
+  --ok: #0f766e;
+  --warn: #b91c1c;
+  --shadow: 0 14px 28px rgba(17, 24, 39, 0.09);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at 88% -8%, #e6f3ea 0%, var(--bg-1) 42%, var(--bg-2) 100%);
+  line-height: 1.58;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.site-wrap {
+  width: min(1040px, 92vw);
+  margin: 0 auto;
+  padding: 22px 0 40px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.brand-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  box-shadow: 0 0 0 6px rgba(15, 118, 110, 0.14);
+}
+
+.nav-links {
+  display: flex;
+  gap: 14px;
+  font-size: 0.95rem;
+  flex-wrap: wrap;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+
+.hero {
+  padding: 26px;
+  margin-bottom: 18px;
+}
+
+.hero h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+}
+
+.hero p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  gap: 14px;
+}
+
+.tool-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.card {
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, #ffffff 0%, var(--surface-alt) 100%);
+}
+
+.card h2,
+.card h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.card p {
+  margin-top: 0;
+  color: var(--muted);
+}
+
+.card ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.form-grid {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  margin-bottom: 14px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+input,
+select,
+button {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 12px;
+  font-size: 1rem;
+  background: #fff;
+}
+
+input:focus,
+select:focus,
+button:focus {
+  outline: 2px solid rgba(15, 118, 110, 0.2);
+  outline-offset: 1px;
+}
+
+button {
+  border: 0;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+}
+
+button:hover {
+  filter: brightness(1.03);
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.actions button {
+  min-width: 200px;
+  flex: 1;
+}
+
+.result {
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-alt);
+}
+
+.result strong {
+  font-size: 1.06rem;
+}
+
+.result.ok {
+  border-color: rgba(15, 118, 110, 0.35);
+}
+
+.result.warn {
+  border-color: rgba(185, 28, 28, 0.3);
+}
+
+.result ul {
+  margin: 10px 0 0;
+  padding-left: 18px;
+}
+
+.small {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ok);
+  background: rgba(15, 118, 110, 0.11);
+}
+
+.table-wrap {
+  margin-top: 12px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 540px;
+  font-size: 0.94rem;
+}
+
+th,
+td {
+  padding: 8px;
+  border-bottom: 1px solid #e5ece6;
+}
+
+th {
+  text-align: left;
+  background: #f2f8f3;
+}
+
+td.num,
+th.num {
+  text-align: right;
+}
+
+@media (max-width: 760px) {
+  .site-wrap {
+    width: min(1040px, 94vw);
+    padding-top: 14px;
+  }
+
+  .hero,
+  .card {
+    padding: 16px;
+  }
+}
