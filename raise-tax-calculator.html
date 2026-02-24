@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raise Tax Calculator (After-Tax Raise Estimator) - TaxKit</title>
+  <meta name="description" content="Estimate your raise take-home impact after taxes, deductions, and bonus withholding with this free raise tax calculator.">
+  <meta name="keywords" content="raise tax calculator, after tax raise calculator, salary raise take home calculator">
+  <link rel="canonical" href="https://devtoolbox.dedyn.io/taxkit/raise-tax-calculator.html">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Raise Tax Calculator (After-Tax Raise Estimator) - TaxKit">
+  <meta property="og:description" content="Estimate net raise impact per paycheck, monthly, and annually after taxes.">
+  <meta property="og:url" content="https://devtoolbox.dedyn.io/taxkit/raise-tax-calculator.html">
+  <meta property="og:site_name" content="TaxKit">
+  <meta property="og:image" content="https://devtoolbox.dedyn.io/og/default.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Raise Tax Calculator - TaxKit">
+  <meta name="twitter:description" content="Estimate your raise take-home impact after tax assumptions.">
+  <meta name="twitter:image" content="https://devtoolbox.dedyn.io/og/default.png">
+  <link rel="stylesheet" href="/taxkit/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "TaxKit Raise Tax Calculator",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "url": "https://devtoolbox.dedyn.io/taxkit/raise-tax-calculator.html"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "TaxKit",
+            "item": "https://devtoolbox.dedyn.io/taxkit/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Raise Tax Calculator",
+            "item": "https://devtoolbox.dedyn.io/taxkit/raise-tax-calculator.html"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Does this calculator include federal and state tax brackets automatically?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. This tool uses your effective tax-rate assumptions to model planning outcomes."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I model a bonus with my raise?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Add an optional one-time bonus and a bonus withholding rate to estimate first-year net gain."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="site-wrap">
+    <header class="topbar">
+      <a class="brand" href="/taxkit/">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>TaxKit</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/taxkit/">Home</a>
+        <a href="/taxkit/paycheck-tax-calculator.html">Paycheck</a>
+        <a href="/taxkit/quarterly-tax-calculator.html">Quarterly Tax</a>
+        <a href="/taxkit/guides.html">Guides</a>
+        <a href="/kits/">All Kits</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="panel hero">
+        <h1>Raise Tax Calculator <span class="badge">After-tax raise estimate</span></h1>
+        <p>Estimate how much of your raise you actually keep per paycheck, per month, and per year after withholding assumptions.</p>
+      </section>
+
+      <section class="panel card">
+        <div class="grid form-grid">
+          <div>
+            <label for="currentSalary">Current annual salary ($)</label>
+            <input id="currentSalary" type="number" min="1000" max="5000000" step="100" value="92000">
+          </div>
+          <div>
+            <label for="raisePct">Raise percentage (%)</label>
+            <input id="raisePct" type="number" min="-50" max="300" step="0.1" value="6.5">
+          </div>
+          <div>
+            <label for="payPeriods">Pay periods per year</label>
+            <select id="payPeriods">
+              <option value="12">12 (monthly)</option>
+              <option value="24">24 (semi-monthly)</option>
+              <option value="26" selected>26 (bi-weekly)</option>
+              <option value="52">52 (weekly)</option>
+            </select>
+          </div>
+          <div>
+            <label for="preTax">Pre-tax deductions per paycheck ($)</label>
+            <input id="preTax" type="number" min="0" step="1" value="250">
+          </div>
+          <div>
+            <label for="postTax">Post-tax deductions per paycheck ($)</label>
+            <input id="postTax" type="number" min="0" step="1" value="20">
+          </div>
+          <div>
+            <label for="currentTaxRate">Current effective tax rate (%)</label>
+            <input id="currentTaxRate" type="number" min="0" max="80" step="0.1" value="22">
+          </div>
+          <div>
+            <label for="newTaxRate">Projected effective tax rate after raise (%)</label>
+            <input id="newTaxRate" type="number" min="0" max="80" step="0.1" value="24">
+          </div>
+          <div>
+            <label for="bonus">One-time bonus ($, optional)</label>
+            <input id="bonus" type="number" min="0" step="100" value="2500">
+          </div>
+          <div>
+            <label for="bonusTaxRate">Bonus withholding rate (%)</label>
+            <input id="bonusTaxRate" type="number" min="0" max="80" step="0.1" value="30">
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" onclick="runCalc()">Estimate After-Tax Raise</button>
+        </div>
+
+        <div id="result" class="result" role="status" aria-live="polite">
+          Enter values and run calculation.
+        </div>
+      </section>
+
+      <section class="panel card" style="margin-top:14px;">
+        <h3>How to use this model</h3>
+        <ul>
+          <li>Start with current effective rate from recent pay stubs, then test a higher rate for your raise scenario.</li>
+          <li>Model at least two cases: base assumptions and a conservative "higher tax" case.</li>
+          <li>Use this for planning and negotiation prep, then confirm actual withholding setup with payroll/tax guidance.</li>
+        </ul>
+        <p class="small">Related: <a href="/careerkit/raise-calculator.html?utm_source=taxkit&amp;utm_medium=internal&amp;utm_campaign=crosspromo-top-organic&amp;utm_content=taxkit-raise-tax-related-career-raise">CareerKit Raise Calculator</a>, <a href="/taxkit/paycheck-tax-calculator.html">Paycheck Tax Calculator</a>, <a href="/taxkit/paycheck-withholding-planning-guide.html">Paycheck Withholding Planning Guide</a>, and <a href="/taxkit/freelancer-tax-checklist.html">Freelancer Tax Setup Checklist</a>.</p>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function money(value) {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(value);
+    }
+
+    function validNumber(value) {
+      return Number.isFinite(value);
+    }
+
+    function perPayNet(grossPerPay, preTax, postTax, taxRatePct) {
+      const taxable = Math.max(0, grossPerPay - preTax);
+      const tax = taxable * (taxRatePct / 100);
+      return Math.max(0, taxable - tax - postTax);
+    }
+
+    function runCalc() {
+      const currentSalary = Number(document.getElementById("currentSalary").value);
+      const raisePct = Number(document.getElementById("raisePct").value);
+      const payPeriods = Number(document.getElementById("payPeriods").value);
+      const preTax = Number(document.getElementById("preTax").value);
+      const postTax = Number(document.getElementById("postTax").value);
+      const currentTaxRate = Number(document.getElementById("currentTaxRate").value);
+      const newTaxRate = Number(document.getElementById("newTaxRate").value);
+      const bonus = Number(document.getElementById("bonus").value);
+      const bonusTaxRate = Number(document.getElementById("bonusTaxRate").value);
+
+      const result = document.getElementById("result");
+
+      if (
+        ![
+          currentSalary,
+          raisePct,
+          payPeriods,
+          preTax,
+          postTax,
+          currentTaxRate,
+          newTaxRate,
+          bonus,
+          bonusTaxRate
+        ].every(validNumber)
+      ) {
+        result.className = "result warn";
+        result.textContent = "Enter valid numeric values in all fields.";
+        return;
+      }
+
+      if (
+        currentSalary < 1000 ||
+        currentSalary > 5000000 ||
+        raisePct < -50 ||
+        raisePct > 300 ||
+        payPeriods <= 0 ||
+        preTax < 0 ||
+        postTax < 0 ||
+        currentTaxRate < 0 ||
+        currentTaxRate > 80 ||
+        newTaxRate < 0 ||
+        newTaxRate > 80 ||
+        bonus < 0 ||
+        bonusTaxRate < 0 ||
+        bonusTaxRate > 80
+      ) {
+        result.className = "result warn";
+        result.textContent = "Check field ranges and try again.";
+        return;
+      }
+
+      const newSalary = currentSalary * (1 + raisePct / 100);
+      const grossRaise = newSalary - currentSalary;
+
+      const currentGrossPerPay = currentSalary / payPeriods;
+      const newGrossPerPay = newSalary / payPeriods;
+
+      const currentNetPerPay = perPayNet(currentGrossPerPay, preTax, postTax, currentTaxRate);
+      const newNetPerPay = perPayNet(newGrossPerPay, preTax, postTax, newTaxRate);
+
+      const currentAnnualNet = currentNetPerPay * payPeriods;
+      const newAnnualNet = newNetPerPay * payPeriods;
+
+      const netRaiseAnnual = newAnnualNet - currentAnnualNet;
+      const netRaiseMonthly = netRaiseAnnual / 12;
+      const netRaisePerPay = newNetPerPay - currentNetPerPay;
+
+      const currentAnnualTaxable = Math.max(0, currentSalary - preTax * payPeriods);
+      const newAnnualTaxable = Math.max(0, newSalary - preTax * payPeriods);
+      const currentAnnualTax = currentAnnualTaxable * (currentTaxRate / 100);
+      const newAnnualTax = newAnnualTaxable * (newTaxRate / 100);
+      const raiseTaxDelta = newAnnualTax - currentAnnualTax;
+
+      const bonusAfterTax = bonus * (1 - bonusTaxRate / 100);
+      const firstYearNetGain = netRaiseAnnual + bonusAfterTax;
+
+      result.className = "result ok";
+      result.innerHTML =
+        "<strong>Estimated after-tax annual raise impact: " + money(netRaiseAnnual) + "</strong>" +
+        "<ul>" +
+        "<li>New annual salary (gross): " + money(newSalary) + "</li>" +
+        "<li>Gross annual raise: " + money(grossRaise) + "</li>" +
+        "<li>Current estimated net pay/year: " + money(currentAnnualNet) + "</li>" +
+        "<li>New estimated net pay/year: " + money(newAnnualNet) + "</li>" +
+        "<li>Estimated net gain per paycheck: " + money(netRaisePerPay) + "</li>" +
+        "<li>Estimated net gain per month: " + money(netRaiseMonthly) + "</li>" +
+        "<li>Estimated annual tax increase from raise assumptions: " + money(raiseTaxDelta) + "</li>" +
+        "<li>Bonus after withholding: " + money(bonusAfterTax) + "</li>" +
+        "<li>Estimated first-year net gain (raise + bonus): " + money(firstYearNetGain) + "</li>" +
+        "</ul>";
+    }
+
+    runCalc();
+  </script>
+</body>
+</html>
