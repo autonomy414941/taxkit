@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Freelancer Tax Reserve Calculator (1099 Monthly Planner) - TaxKit</title>
+  <meta name="description" content="Estimate a monthly and quarterly tax reserve target for 1099 income using expense and tax-rate assumptions.">
+  <meta name="keywords" content="freelancer tax reserve calculator, 1099 tax reserve calculator, self employed tax savings calculator">
+  <link rel="canonical" href="https://devtoolbox.dedyn.io/taxkit/freelancer-tax-reserve-calculator.html">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Freelancer Tax Reserve Calculator (1099 Monthly Planner) - TaxKit">
+  <meta property="og:description" content="Plan weekly and monthly transfers into a dedicated tax reserve account.">
+  <meta property="og:url" content="https://devtoolbox.dedyn.io/taxkit/freelancer-tax-reserve-calculator.html">
+  <meta property="og:site_name" content="TaxKit">
+  <meta property="og:image" content="https://devtoolbox.dedyn.io/og/default.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Freelancer Tax Reserve Calculator - TaxKit">
+  <meta name="twitter:description" content="Estimate how much to set aside monthly and quarterly for 1099 taxes.">
+  <meta name="twitter:image" content="https://devtoolbox.dedyn.io/og/default.png">
+  <link rel="stylesheet" href="/taxkit/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "TaxKit Freelancer Tax Reserve Calculator",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "url": "https://devtoolbox.dedyn.io/taxkit/freelancer-tax-reserve-calculator.html"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "TaxKit",
+            "item": "https://devtoolbox.dedyn.io/taxkit/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Freelancer Tax Reserve Calculator",
+            "item": "https://devtoolbox.dedyn.io/taxkit/freelancer-tax-reserve-calculator.html"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What reserve percentage should freelancers start with?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Many freelancers start with a conservative combined tax-rate assumption, then adjust after each quarter based on actual payments and income volatility."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does this calculator file taxes?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. It provides planning estimates only and does not file tax returns."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="site-wrap">
+    <header class="topbar">
+      <a class="brand" href="/taxkit/">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>TaxKit</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/taxkit/">Home</a>
+        <a href="/taxkit/quarterly-tax-calculator.html">Quarterly Tax</a>
+        <a href="/taxkit/paycheck-tax-calculator.html">Paycheck</a>
+        <a href="/taxkit/raise-tax-calculator.html">Raise Tax</a>
+        <a href="/taxkit/guides.html">Guides</a>
+        <a href="/kits/">All Kits</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="panel hero">
+        <h1>Freelancer Tax Reserve Calculator <span class="badge">Monthly + Quarterly</span></h1>
+        <p>Estimate how much to transfer into a tax reserve account each week and month for 1099 income planning.</p>
+      </section>
+
+      <section class="panel card">
+        <div class="grid form-grid">
+          <div>
+            <label for="monthlyGross">Average monthly freelance income ($)</label>
+            <input id="monthlyGross" type="number" min="0" step="50" value="8000">
+          </div>
+          <div>
+            <label for="expenseRate">Business expense estimate (%)</label>
+            <input id="expenseRate" type="number" min="0" max="100" step="0.1" value="15">
+          </div>
+          <div>
+            <label for="federalRate">Federal tax rate (%)</label>
+            <input id="federalRate" type="number" min="0" max="100" step="0.1" value="12">
+          </div>
+          <div>
+            <label for="stateRate">State/local tax rate (%)</label>
+            <input id="stateRate" type="number" min="0" max="100" step="0.1" value="5">
+          </div>
+          <div>
+            <label for="seRate">Self-employment tax rate (%)</label>
+            <input id="seRate" type="number" min="0" max="100" step="0.01" value="14.13">
+          </div>
+          <div>
+            <label for="currentReserve">Current reserve account balance ($)</label>
+            <input id="currentReserve" type="number" min="0" step="10" value="2500">
+          </div>
+          <div>
+            <label for="monthsLeft">Months left in this quarter</label>
+            <select id="monthsLeft">
+              <option value="1">1</option>
+              <option value="2" selected>2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+          <div>
+            <label for="bufferMonths">Safety buffer target (months)</label>
+            <select id="bufferMonths">
+              <option value="1" selected>1 month</option>
+              <option value="2">2 months</option>
+              <option value="3">3 months</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" onclick="runCalc()">Estimate Reserve Plan</button>
+        </div>
+
+        <div id="result" class="result" role="status" aria-live="polite">
+          Enter your assumptions and run the calculation.
+        </div>
+      </section>
+
+      <section class="panel card" style="margin-top:14px;">
+        <h3>How to use this output</h3>
+        <ul>
+          <li>Transfer at least the weekly target into a separate tax account.</li>
+          <li>Re-run after income changes or a large one-time project payment.</li>
+          <li>After each estimated-tax payment, update your current reserve balance and check the next quarter catch-up target.</li>
+        </ul>
+      </section>
+
+      <section class="panel card" style="margin-top:14px;">
+        <h3>Related TaxKit resources</h3>
+        <p class="small">Use this with the <a href="/taxkit/quarterly-tax-calculator.html?utm_source=taxkit&amp;utm_medium=internal&amp;utm_campaign=crosspromo-top-organic&amp;utm_content=taxkit-reserve-calc-quarterly">Quarterly Tax Calculator</a>, <a href="/taxkit/freelancer-tax-checklist.html?utm_source=taxkit&amp;utm_medium=internal&amp;utm_campaign=crosspromo-top-organic&amp;utm_content=taxkit-reserve-calc-checklist">Freelancer Tax Setup Checklist</a>, and <a href="/taxkit/1099-quarterly-tax-guide.html?utm_source=taxkit&amp;utm_medium=internal&amp;utm_campaign=crosspromo-top-organic&amp;utm_content=taxkit-reserve-calc-guide">1099 Quarterly Tax Planning Guide</a>.</p>
+      </section>
+
+      <section class="panel card" style="margin-top:14px;">
+        <h3>Planning reminder</h3>
+        <p class="small">TaxKit provides planning estimates only and does not file tax returns. Confirm filing details and due dates with official guidance or a qualified tax professional.</p>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function money(value) {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(value);
+    }
+
+    function clampPercent(value) {
+      if (!Number.isFinite(value)) {
+        return 0;
+      }
+      return Math.min(100, Math.max(0, value));
+    }
+
+    function nonNegative(value) {
+      return Number.isFinite(value) ? Math.max(0, value) : 0;
+    }
+
+    function runCalc() {
+      const monthlyGross = Number(document.getElementById("monthlyGross").value);
+      const expenseRate = clampPercent(Number(document.getElementById("expenseRate").value));
+      const federalRate = clampPercent(Number(document.getElementById("federalRate").value));
+      const stateRate = clampPercent(Number(document.getElementById("stateRate").value));
+      const seRate = clampPercent(Number(document.getElementById("seRate").value));
+      const currentReserve = nonNegative(Number(document.getElementById("currentReserve").value));
+      const monthsLeft = Math.max(1, Number(document.getElementById("monthsLeft").value));
+      const bufferMonths = Math.max(1, Number(document.getElementById("bufferMonths").value));
+
+      const result = document.getElementById("result");
+
+      if (!Number.isFinite(monthlyGross) || monthlyGross < 0) {
+        result.className = "result warn";
+        result.textContent = "Monthly income cannot be negative.";
+        return;
+      }
+
+      const monthlyNetIncome = monthlyGross * (1 - expenseRate / 100);
+      const combinedRatePct = federalRate + stateRate + seRate;
+      const combinedRate = combinedRatePct / 100;
+      const monthlyReserveTarget = monthlyNetIncome * combinedRate;
+      const weeklyTransferTarget = monthlyReserveTarget / 4.33;
+      const quarterlyReserveTarget = monthlyReserveTarget * 3;
+      const annualReserveTarget = monthlyReserveTarget * 12;
+      const catchUpNeeded = Math.max(0, quarterlyReserveTarget - currentReserve);
+      const catchUpPerMonth = catchUpNeeded / monthsLeft;
+      const conservativeRatePct = Math.min(100, combinedRatePct + 5);
+      const conservativeMonthlyTarget = monthlyNetIncome * (conservativeRatePct / 100);
+      const bufferTarget = monthlyReserveTarget * bufferMonths;
+      const reserveRunwayMonths = monthlyReserveTarget > 0
+        ? (currentReserve / monthlyReserveTarget)
+        : 0;
+
+      result.className = "result ok";
+      result.innerHTML =
+        "<strong>Recommended monthly tax reserve: " + money(monthlyReserveTarget) + "</strong>" +
+        "<ul>" +
+        "<li>Estimated monthly net business income: " + money(monthlyNetIncome) + "</li>" +
+        "<li>Combined tax rate used: " + combinedRatePct.toFixed(2) + "%</li>" +
+        "<li>Weekly transfer target: " + money(weeklyTransferTarget) + "</li>" +
+        "<li>Quarterly reserve target: " + money(quarterlyReserveTarget) + "</li>" +
+        "<li>Annual reserve target: " + money(annualReserveTarget) + "</li>" +
+        "<li>Current reserve runway: " + reserveRunwayMonths.toFixed(2) + " months</li>" +
+        "<li>Catch-up needed this quarter: " + money(catchUpNeeded) + " (" + money(catchUpPerMonth) + " per remaining month)</li>" +
+        "<li>Conservative monthly target (+5 percentage points): " + money(conservativeMonthlyTarget) + "</li>" +
+        "<li>Safety buffer target (" + bufferMonths + " month): " + money(bufferTarget) + "</li>" +
+        "</ul>";
+    }
+
+    runCalc();
+  </script>
+</body>
+</html>
